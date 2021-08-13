@@ -1,5 +1,6 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-light bg-white">
+  <div v-if="authenticated">
+  <nav class="navbar navbar-expand-lg navbar-light bg-white" >
     <div class="container">
       <router-link :to="{ name: user ? 'home' : 'welcome' }" class="navbar-brand">
         {{ appName }}
@@ -56,6 +57,7 @@
       </div>
     </div>
   </nav>
+  </div>
 </template>
 
 <script>
@@ -72,7 +74,8 @@ export default {
   }),
 
   computed: mapGetters({
-    user: 'auth/user'
+    user: 'auth/user',
+    authenticated: 'auth/check'   
   }),
 
   methods: {
@@ -80,8 +83,8 @@ export default {
       // Log out the user.
       await this.$store.dispatch('auth/logout')
 
-      // Redirect to login.
-      this.$router.push({ name: 'login' })
+      // Redirect to Welcome / login page. 
+      this.$router.push({ name: 'welcome' })
     }
   }
 }
